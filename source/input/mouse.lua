@@ -1,4 +1,4 @@
-lovr.mouse = require "input.lovr-mouse"
+lovr.mouse = require "input.input_libraries.lovr-mouse"
 
 -- Mouse basically works as a singleton
 local mouse = {

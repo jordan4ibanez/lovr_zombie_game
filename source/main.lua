@@ -1,12 +1,10 @@
-lovr.keyboard = require "input.lovr-keyboard"
 lovr.window = require "window.lovr-window"
 camera = require "camera.camera"
 mouse = require "input.mouse"
+keyboard = require "input.keyboard"
 
 function lovr.load()
     lovr.mouse.setRelativeMode(true);
-
-    
 end
 
 function lovr.update(delta)
