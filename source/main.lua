@@ -16,6 +16,7 @@ function lovr.load()
     -- Create the ground
     ground = world:newBoxCollider(0, 0, 0, 50, .05, 50)
     ground:setKinematic(true)
+    ground:setFriction(10)
 
     -- Create boxes!
     boxes = {}
@@ -23,6 +24,7 @@ function lovr.load()
     for x = -1, 1, .25 do
         for y = .125, 2, .24999 do
             local box = world:newBoxCollider(x, y, -2 - y / 5, .25)
+            box:setFriction(10)
             table.insert(boxes, box)
         end
     end
@@ -57,7 +59,7 @@ function lovr.draw()
 
     local minx, maxx, miny, maxy, minz, maxz = ground:getAABB()
     local x, y, z = ground:getPosition()
-    lovr.graphics.setColor(255,0,255,255)
+    lovr.graphics.setColor(0, 1,0.5,1)
     lovr.graphics.box(
         "fill",
         x, y, z,
@@ -67,10 +69,10 @@ function lovr.draw()
         0.25,
         ground:getOrientation()
     )
-    -- print(ground)
     drawBox(ground)
+
     for i, box in ipairs(boxes) do
-        lovr.graphics.setColor(i,0,0,255)
+        lovr.graphics.setColor(i / 72,0,0,1)
         drawBox(box)
     end
 
