@@ -23,7 +23,7 @@ function camera:update()
     lovr.graphics.origin()
     lovr.graphics.rotate(self.rotation.x, 1, 0, 0)
     lovr.graphics.rotate(self.rotation.y, 0, 1, 0)
-    lovr.graphics.translate(self.position.x, self.position.y, self.position.z)
+    lovr.graphics.translate(-self.position.x, -self.position.y, -self.position.z)
 end
 
 function camera:poll()
