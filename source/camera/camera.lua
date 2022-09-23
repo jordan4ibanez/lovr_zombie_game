@@ -49,25 +49,34 @@ function camera:poll()
     local backward = lovr.keyboard.isDown("s")
     local left = lovr.keyboard.isDown("a")
     local right = lovr.keyboard.isDown("d")
+    local up = lovr.keyboard.isDown("space")
+    local down = lovr.keyboard.isDown("lshift")
 
     local addition = lovr.math.newVec3(0,0,0)
 
     -- Allow to cancel out
     if (forward) then
-        addition.x = addition.x - math.sin(self.rotation.y)
-        addition.z = addition.z + math.cos(self.rotation.y)
-    end
-    if (backward) then
         addition.x = addition.x + math.sin(self.rotation.y)
         addition.z = addition.z - math.cos(self.rotation.y)
     end
+    if (backward) then
+        addition.x = addition.x - math.sin(self.rotation.y)
+        addition.z = addition.z + math.cos(self.rotation.y)
+    end
     if (right) then
+        addition.x = addition.x + math.sin(self.rotation.y + HALF_PI);
+        addition.z = addition.z - math.cos(self.rotation.y + HALF_PI);
+    end
+    if (left) then
         addition.x = addition.x - math.sin(self.rotation.y + HALF_PI);
         addition.z = addition.z + math.cos(self.rotation.y + HALF_PI);
     end
-    if (left) then
-        addition.x = addition.x + math.sin(self.rotation.y + HALF_PI);
-        addition.z = addition.z - math.cos(self.rotation.y + HALF_PI);
+
+    if (up) then
+        addition.y = addition.y + 1;
+    end
+    if (down) then
+        addition.y = addition.y - 1;
     end
 
     addition.x = addition.x * lovr.timer.getDelta();
