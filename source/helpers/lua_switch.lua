@@ -13,7 +13,7 @@ function switch:new(case_table)
     object.id = id
 
     id = id + 1
-    
+
     print(id)
 
     setmetatable(object, self)
@@ -24,11 +24,11 @@ function switch:new(case_table)
 end
 
 -- let the programmer actually use it during runtime for matching cases
-function switch:match(case, input_table)
+function switch:match(case, input_data)
 
     -- only check against existing entities
     if self.case_table[case] then
-        local data = self.case_table[case](input_table)
+        local data = self.case_table[case](input_data)
         -- switch case will return self and data instead of just self
         if data then
             return self,data
