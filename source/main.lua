@@ -3,6 +3,7 @@ camera = require "camera.camera"
 mouse = require "input.mouse"
 keyboard = require "input.keyboard"
 require "math"
+require "helpers.lua_switch"
 
 local ground
 
@@ -46,20 +47,37 @@ function lovr.update(delta)
     end
 end
 
+local shapeSwitch = switch:new({
+    BoxShape = function(inputTable)
+        local collider = inputTable[1];
+        local shape    = inputTable[2];
+        local x, y, z  = collider:getPosition()
+        local sizeX, sizeY, sizeZ = shape:getDimensions();
+        local rotX, rotY, rotZ = shape:getOrientation()
+        lovr.graphics.box(
+            "fill",
+            x,
+            y,
+            z,
+            sizeX,
+            sizeY,
+            sizeZ,
+            0.25,
+            rotX,
+            rotY,
+            rotZ
+        )
+    end
+})
 
 -- A helper function for drawing boxes
-local function drawBox(box)
+local function drawCollisionBox(collider)
+    for _, shape in pairs(collider:getShapes()) do
+        shapeSwitch:match(tostring(shape), {collider, shape})
+    end
+
+    --[[ local minx, maxx, miny, maxy, minz, maxz = box:getAABB()
     local x, y, z = box:getPosition()
-    lovr.graphics.cube('fill', x, y, z, .25, box:getOrientation())
-end
-
-local distance = 5
-function lovr.draw()
-    camera:update()
-
-    local minx, maxx, miny, maxy, minz, maxz = ground:getAABB()
-    local x, y, z = ground:getPosition()
-    lovr.graphics.setColor(0, 1,0.5,1)
     lovr.graphics.box(
         "fill",
         x, y, z,
@@ -67,13 +85,21 @@ function lovr.draw()
         math.abs(miny) + math.abs(maxy),
         math.abs(minz) + math.abs(maxz),
         0.25,
-        ground:getOrientation()
+        box:getOrientation()
     )
-    drawBox(ground)
+    ]]-- 
+end
+
+local distance = 5
+function lovr.draw()
+    camera:update()
+
+    lovr.graphics.setColor(0, 1,0.5,1)
+    drawCollisionBox(ground)
 
     for i, box in ipairs(boxes) do
         lovr.graphics.setColor(i / 72,0,0,1)
-        drawBox(box)
+        drawCollisionBox(box)
     end
 
     --[[
