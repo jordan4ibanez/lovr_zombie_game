@@ -5,7 +5,7 @@ local mouse = {
     relative = true,
     delta = lovr.math.newVec2(0,0),
     first = true,
-    sensitivity = 0.0001
+    sensitivity = 0.001
 }
 
 function mouse:init()
