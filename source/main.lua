@@ -24,7 +24,7 @@ function lovr.load()
     ball = world:newSphereCollider(1,20,3, 0.2)
 
     pill = world:newCapsuleCollider(0,3,-2, 0.25, 0.5)
-    pill:setOrientation(0.25, 1, 1, 1)
+    pill:setOrientation(math.pi / 2, 1, 0, 0)
     
 
 
