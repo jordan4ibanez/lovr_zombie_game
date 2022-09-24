@@ -6,6 +6,8 @@ require "math"
 require "helpers.lua_switch"
 
 local ground
+local ball
+local pill
 
 function lovr.load()
     lovr.mouse.setRelativeMode(true);
@@ -18,6 +20,11 @@ function lovr.load()
     ground = world:newBoxCollider(0, 0, 0, 50, .05, 50)
     ground:setKinematic(true)
     ground:setFriction(10)
+
+    ball = world:newSphereCollider(1,20,3, 0.2)
+
+    pill = world:newCapsuleCollider(1,3,1, 0.25, 3)
+
 
     -- Create boxes!
     boxes = {}
@@ -53,7 +60,7 @@ local shapeSwitch = switch:new({
         local shape    = inputTable[2];
         local x, y, z  = collider:getPosition()
         local sizeX, sizeY, sizeZ = shape:getDimensions();
-        local rotX, rotY, rotZ = shape:getOrientation()
+        local rotX, rotY, rotZ = shape:getOrientation();
         lovr.graphics.box(
             "fill",
             x,
@@ -66,7 +73,24 @@ local shapeSwitch = switch:new({
             rotX,
             rotY,
             rotZ
-        )
+        );
+    end,
+    SphereShape = function(inputTable)
+        local collider = inputTable[1];
+        local shape    = inputTable[2];
+        local x, y, z  = collider:getPosition();
+        local radius   = shape:getRadius();
+        local rotX, rotY, rotZ = shape:getOrientation();
+        lovr.graphics.sphere(
+            x,
+            y,
+            z,
+            radius,
+            0.25,
+            rotX,
+            rotY,
+            rotZ
+        );
     end
 })
 
@@ -95,12 +119,16 @@ function lovr.draw()
     camera:update()
 
     lovr.graphics.setColor(0, 1,0.5,1)
-    drawCollisionBox(ground)
+    --drawCollisionBox(ground)
 
     for i, box in ipairs(boxes) do
         lovr.graphics.setColor(i / 72,0,0,1)
-        drawCollisionBox(box)
+        --drawCollisionBox(box)
     end
+
+    drawCollisionBox(pill)
+
+    --drawCollisionBox(ball)
 
     --[[
     lovr.graphics.setColor(255,255,255,255)
