@@ -25,6 +25,7 @@ function lovr.load()
 
     pill = world:newCapsuleCollider(0,3,-2, 0.25, 0.5)
     pill:setOrientation(math.pi / 2, 1, 0, 0)
+    pill:setAngularDamping(1,0)
     
 
 
@@ -44,8 +45,9 @@ function lovr.load()
 end
 
 function lovr.update(delta)
-
+    pill:setOrientation(math.pi / 2, 1, 0, 0)
     world:update(delta)
+    pill:setOrientation(math.pi / 2, 1, 0, 0)
 
     mouse:update()
 
@@ -101,6 +103,7 @@ local shapeSwitch = switch:new({
         local radius   = shape:getRadius();
         local length   = shape:getLength();
         local angle, rotX, rotY, rotZ = collider:getOrientation();
+        lovr.graphics.setWireframe(true)
         lovr.graphics.cylinder(
             x,
             y,
@@ -114,6 +117,7 @@ local shapeSwitch = switch:new({
             radius,
             true
         );
+        lovr.graphics.setWireframe(false)
     end
 })
 
