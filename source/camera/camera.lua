@@ -6,7 +6,7 @@ QUARTER_PI = math.pi / 4
 --- Camera basically works as a singleton
 
 local camera = {
-    position = lovr.math.newVec3(0,0,0),
+    position = lovr.math.newVec3(0,2,0),
     rotation = lovr.math.newVec3(0,0,0)
 }
 
