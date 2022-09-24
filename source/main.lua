@@ -23,7 +23,9 @@ function lovr.load()
 
     ball = world:newSphereCollider(1,20,3, 0.2)
 
-    pill = world:newCapsuleCollider(1,3,1, 0.25, 3)
+    pill = world:newCapsuleCollider(0,3,-2, 0.25, 0.5)
+    pill:setOrientation(0.25, 1, 1, 1)
+    
 
 
     -- Create boxes!
@@ -60,7 +62,7 @@ local shapeSwitch = switch:new({
         local shape    = inputTable[2];
         local x, y, z  = collider:getPosition()
         local sizeX, sizeY, sizeZ = shape:getDimensions();
-        local rotX, rotY, rotZ = shape:getOrientation();
+        local angle, rotX, rotY, rotZ = collider:getOrientation();
         lovr.graphics.box(
             "fill",
             x,
@@ -69,27 +71,48 @@ local shapeSwitch = switch:new({
             sizeX,
             sizeY,
             sizeZ,
-            0.25,
+            angle,
             rotX,
             rotY,
             rotZ
         );
-    end,
+    end;
     SphereShape = function(inputTable)
         local collider = inputTable[1];
         local shape    = inputTable[2];
         local x, y, z  = collider:getPosition();
         local radius   = shape:getRadius();
-        local rotX, rotY, rotZ = shape:getOrientation();
+        local angle, rotX, rotY, rotZ = collider:getOrientation();
         lovr.graphics.sphere(
             x,
             y,
             z,
             radius,
-            0.25,
+            angle,
             rotX,
             rotY,
             rotZ
+        );
+    end;
+    CapsuleShape = function(inputTable)
+        local collider = inputTable[1];
+        local shape    = inputTable[2];
+        local x, y, z  = collider:getPosition();
+        local radius   = shape:getRadius();
+        local length   = shape:getLength();
+        local angle, rotX, rotY, rotZ = collider:getOrientation();
+        lovr.graphics.cylinder(
+            x,
+            y,
+            z,
+            length,
+            angle,
+            rotX,
+            rotY,
+            rotZ,
+            radius,
+            radius,
+            false
         );
     end
 })
@@ -119,16 +142,16 @@ function lovr.draw()
     camera:update()
 
     lovr.graphics.setColor(0, 1,0.5,1)
-    --drawCollisionBox(ground)
+    drawCollisionBox(ground)
 
     for i, box in ipairs(boxes) do
         lovr.graphics.setColor(i / 72,0,0,1)
-        --drawCollisionBox(box)
+        drawCollisionBox(box)
     end
 
     drawCollisionBox(pill)
 
-    --drawCollisionBox(ball)
+    drawCollisionBox(ball)
 
     --[[
     lovr.graphics.setColor(255,255,255,255)
