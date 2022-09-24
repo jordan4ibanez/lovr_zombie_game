@@ -105,14 +105,14 @@ local shapeSwitch = switch:new({
             x,
             y,
             z,
-            length,
+            length + (radius * 2),
             angle,
             rotX,
             rotY,
             rotZ,
             radius,
             radius,
-            false
+            true
         );
     end
 })
